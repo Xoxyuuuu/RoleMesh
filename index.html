@@ -1178,6 +1178,85 @@ footer{margin-top:40px;padding:28px 0;text-align:center;color:var(--text-sub);fo
 body:has(#page-messages.active) footer{display:none}
 /* 详情页是二级页：返回按钮自带 16px 上内距，配合 20px 让文字仍落在 36px 那条线上 */
 #page-detail{padding-top:20px}
+
+/* ================= 登录 / 注册（纯前端模拟，无真实鉴权） ================= */
+.auth-screen{position:fixed;inset:0;z-index:3000;display:none;align-items:center;justify-content:center;padding:24px;
+  background:
+    radial-gradient(1100px 560px at 12% -12%,#EDE4FF 0%,rgba(237,228,255,0) 62%),
+    radial-gradient(900px 520px at 102% 112%,#F3EEFE 0%,rgba(243,238,254,0) 58%),
+    var(--bg)}
+.auth-screen.show{display:flex}
+.auth-shell{width:100%;max-width:900px;display:grid;grid-template-columns:1.02fr 1fr;background:var(--card);
+  border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);
+  animation:authIn .42s cubic-bezier(.22,.9,.28,1) both}
+@keyframes authIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.auth-brand{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:26px;
+  padding:34px 34px 30px;color:#fff;background:linear-gradient(158deg,#24085C 0%,#3A1090 46%,#4A22C8 100%)}
+.auth-brand:after{content:"";position:absolute;right:-72px;bottom:-96px;width:270px;height:270px;border-radius:50%;
+  background:radial-gradient(circle at 32% 32%,rgba(190,143,250,.55),rgba(190,143,250,0) 70%)}
+.ab-logo{position:relative;z-index:1;display:flex;align-items:center;gap:10px;font-size:16.5px;font-weight:700;letter-spacing:.2px}
+.ab-badge{width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;background:linear-gradient(180deg,#A16CFB,#7B45F0);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.auth-brand h2{position:relative;z-index:1;margin:22px 0 0;font-size:25px;line-height:1.44;font-weight:700;letter-spacing:-.3px}
+.auth-brand .ab-sub{position:relative;z-index:1;margin:11px 0 0;font-size:13px;line-height:1.8;color:rgba(255,255,255,.72)}
+.auth-points{position:relative;z-index:1;display:flex;flex-direction:column;gap:11px}
+.auth-points div{display:flex;align-items:center;gap:9px;font-size:12.8px;color:rgba(255,255,255,.9)}
+.auth-points i{width:17px;height:17px;border-radius:50%;background:rgba(255,255,255,.16);flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:10px}
+.ab-foot{position:relative;z-index:1;font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.2px}
+.auth-panel{padding:34px 38px 30px;display:flex;flex-direction:column;min-width:0}
+.auth-tabs{align-self:flex-start;display:inline-flex;gap:2px;padding:3px;background:var(--bg-muted);border-radius:10px}
+.auth-tabs button{border:none;background:none;font-family:inherit;font-size:12.8px;font-weight:600;color:var(--text-sub);
+  padding:7px 16px;border-radius:8px;cursor:pointer;transition:.16s}
+.auth-tabs button.on{background:var(--card);color:var(--primary);box-shadow:var(--shadow-sm)}
+.auth-title{margin:20px 0 0;font-size:21px;font-weight:700;letter-spacing:-.3px}
+.auth-sub{margin:7px 0 0;font-size:12.8px;line-height:1.6;color:var(--text-sub)}
+.auth-field{margin-top:16px}
+.auth-label{display:block;margin-bottom:7px;font-size:12.3px;font-weight:600;color:var(--text-sub)}
+.auth-box{display:flex;align-items:center;height:46px;border:1px solid var(--border-strong);border-radius:11px;
+  background:var(--card);transition:.16s;overflow:hidden}
+.auth-box:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,34,200,.1)}
+.auth-box.bad{border-color:var(--danger);box-shadow:0 0 0 3px rgba(192,57,43,.1)}
+.auth-prefix{display:flex;align-items:center;height:22px;padding:0 12px 0 14px;flex-shrink:0;
+  font-size:13.3px;color:var(--text-sub);border-right:1px solid var(--border)}
+.auth-box input{flex:1;min-width:0;height:100%;padding:0 14px;border:none;outline:none;background:none;
+  font-family:inherit;font-size:14.5px;color:var(--text);letter-spacing:.01em}
+.auth-box input::placeholder{color:var(--text-faint);letter-spacing:0}
+.auth-code-btn{height:100%;padding:0 14px;border:none;border-left:1px solid var(--border);background:none;
+  font-family:inherit;font-size:12.5px;font-weight:600;color:var(--primary);white-space:nowrap;cursor:pointer}
+.auth-code-btn:disabled{color:var(--text-faint);cursor:default}
+.auth-hint{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:12px;color:var(--text-sub)}
+.auth-hint b{color:var(--primary);font-variant-numeric:tabular-nums;cursor:pointer}
+.auth-err{min-height:17px;margin-top:10px;font-size:12.3px;line-height:17px;color:var(--danger)}
+.auth-submit{width:100%;height:46px;margin-top:2px;border-radius:11px;font-size:15px}
+.auth-submit[disabled]{opacity:.72;cursor:default}
+.auth-guest{width:100%;height:44px;margin-top:11px;border:1px solid var(--border-strong);border-radius:11px;
+  background:var(--card);font-family:inherit;font-size:13.3px;font-weight:600;color:var(--text-sub);cursor:pointer;transition:.16s}
+.auth-guest:hover{border-color:var(--primary-border);background:var(--primary-wash);color:var(--primary)}
+.auth-agree{display:flex;align-items:flex-start;gap:8px;margin-top:15px;font-size:11.8px;line-height:1.65;
+  color:var(--text-sub);cursor:pointer}
+.auth-agree input{width:14px;height:14px;margin:2px 0 0;flex-shrink:0;accent-color:var(--primary)}
+.auth-agree a{color:var(--primary);text-decoration:none}
+/* 顶栏账号区 */
+.user-chip{display:flex;align-items:center;gap:8px;height:36px;padding:0 11px 0 4px;border-radius:999px;
+  border:1px solid var(--border);background:var(--card);font-family:inherit;cursor:pointer;transition:.16s}
+.user-chip:hover{border-color:var(--primary-border);background:var(--primary-wash)}
+.uc-av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:12.5px;font-weight:600;color:#fff;background:linear-gradient(180deg,#5B33E4,#3E19B2)}
+.uc-name{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:13px;font-weight:600;color:var(--text)}
+.auth-logout{border:none;background:none;padding:0 2px;font-family:inherit;font-size:12.3px;
+  color:var(--text-faint);cursor:pointer;transition:.16s}
+.auth-logout:hover{color:var(--danger)}
+.me-account{margin-top:6px;font-size:12.3px;color:var(--text-faint)}
+@media (max-width:860px){
+  .auth-shell{grid-template-columns:1fr;max-width:440px}
+  .auth-brand{display:none}
+  .auth-panel{padding:28px 22px 24px}
+  .user-chip{width:36px;padding:0 3px;justify-content:center}
+  .uc-name{display:none}
+}
 </style>
 <script>
 /* 每次进入首页：欢迎标题逐字入场重播。不写任何 storage，不留「已播」标记。
@@ -1261,6 +1340,63 @@ body:has(#page-messages.active) footer{display:none}
   </defs>
 </svg>
 
+<!-- ================= 登录 / 注册（前端模拟） ================= -->
+<div class="auth-screen" id="auth-screen" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <div class="auth-shell">
+    <aside class="auth-brand">
+      <div>
+        <div class="ab-logo"><span class="ab-badge">M</span>RoleMesh</div>
+        <h2>用「角色」认识彼此，<br>让匹配先发生。</h2>
+        <p class="ab-sub">不按专业分班，按角色组队。把项目里缺的那一块，先补上。</p>
+      </div>
+      <div class="auth-points">
+        <div><i>✓</i>Mesh 匹配 · 按技能与可投入时间对齐</div>
+        <div><i>✓</i>项目详情 · 看清岗位职责再申请</div>
+        <div><i>✓</i>站内消息 · 通过后直接开聊</div>
+      </div>
+      <div class="ab-foot">RoleMesh Demo v0.1 · 演示数据由前端模拟</div>
+    </aside>
+
+    <section class="auth-panel">
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="on" id="auth-tab-phone" onclick="authSetMode('phone')">手机号</button>
+        <button type="button" id="auth-tab-email" onclick="authSetMode('email')">邮箱</button>
+      </div>
+
+      <h2 class="auth-title" id="auth-title">登录 / 注册</h2>
+      <p class="auth-sub" id="auth-sub">未注册的手机号将自动创建账号</p>
+
+      <div class="auth-field">
+        <label class="auth-label" id="auth-acc-label" for="auth-acc">手机号</label>
+        <div class="auth-box" id="auth-acc-box">
+          <span class="auth-prefix" id="auth-prefix">+86</span>
+          <input id="auth-acc" type="tel" inputmode="numeric" maxlength="11" autocomplete="tel"
+                 placeholder="请输入 11 位手机号" oninput="authClearErr()">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label class="auth-label" for="auth-code">验证码</label>
+        <div class="auth-box" id="auth-code-box">
+          <input id="auth-code" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code"
+                 placeholder="6 位验证码" oninput="authClearErr()" onkeydown="if(event.key==='Enter')authSubmit()">
+          <button type="button" class="auth-code-btn" id="auth-code-btn" onclick="authSendCode()">获取验证码</button>
+        </div>
+        <div class="auth-hint">演示环境 · 验证码固定为 <b onclick="authFillCode()">123456</b>（点击填入）</div>
+      </div>
+
+      <div class="auth-err" id="auth-err"></div>
+      <button class="btn btn-primary auth-submit" id="auth-submit" onclick="authSubmit()">登录</button>
+      <button class="auth-guest" type="button" onclick="authGuest()">先逛逛，稍后登录</button>
+
+      <label class="auth-agree">
+        <input type="checkbox" id="auth-agree">
+        <span>我已阅读并同意<a href="#" onclick="event.preventDefault()">《用户协议》</a>与<a href="#" onclick="event.preventDefault()">《隐私政策》</a>，未注册账号将自动创建。</span>
+      </label>
+    </section>
+  </div>
+</div>
+
 <header>
   <div class="container nav">
     <a class="logo" href="#" onclick="go('home')" aria-label="RoleMesh 首页">
@@ -1303,9 +1439,9 @@ body:has(#page-messages.active) footer{display:none}
       <a href="#" data-nav="messages" onclick="go('messages')"><svg class="ic"><use href="#ic-chat"/></svg><span class="nl">消息</span><span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
       <a href="#" data-nav="me" onclick="go('me')"><svg class="ic"><use href="#ic-user"/></svg><span class="nl">我的</span></a>
     </nav>
-    <!-- 注册登录部分后续接入 -->
-    <div class="nav-actions">
-      <button class="btn btn-primary" disabled title="暂不开放">登录 / 注册</button>
+    <!-- 登录态由 renderAuthUI() 渲染；接真实鉴权时只需把 authSubmit 换成调 /auth/login -->
+    <div class="nav-actions" id="nav-actions">
+      <button class="btn btn-primary" onclick="authOpen()">登录 / 注册</button>
     </div>
   </div>
 </header>
@@ -1672,6 +1808,7 @@ body:has(#page-messages.active) footer{display:none}
       <div>
         <h1 class="me-name">访客用户</h1>
         <p class="me-meta">计算机科学与技术 · 2023 级 · 某某大学</p>
+        <p class="me-account" id="me-account" style="display:none"></p>
       </div>
     </div>
     <button class="btn btn-ghost" onclick="openEditProfileModal()">编辑资料</button>
@@ -6015,6 +6152,227 @@ addRoleCard();
   window.addEventListener('load', function(){
     if(on && page.classList.contains('active') && !lockOn){ measure(); sync(true); }
   });
+})();
+
+/* ================= 登录 / 注册（纯前端模拟，无真实鉴权） =================
+   接真实接口时：只需把 authSubmit() 里 setTimeout 那一段换成 POST /auth/login，
+   拿到 token 写入 authState 后调用 authAfterEnter()，其余渲染逻辑不用动。 */
+const AUTH_KEY = 'rm.session';
+const AUTH_CODE = '123456';      /* 演示固定验证码 */
+const AUTH_AUTO_OPEN = true;     /* 首次访问自动弹登录页；不想被拦可改为 false */
+let authState = null;
+let authMode = 'phone';
+let authTimer = null;
+
+function authEsc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function authRead(){
+  try{ return JSON.parse(sessionStorage.getItem(AUTH_KEY) || 'null'); }catch(e){ return null; }
+}
+function authWrite(){
+  try{ sessionStorage.setItem(AUTH_KEY, JSON.stringify(authState)); }catch(e){}
+}
+function authWipe(){
+  try{ sessionStorage.removeItem(AUTH_KEY); }catch(e){}
+}
+function authNick(acc, mode){
+  if(mode === 'email'){
+    const p = acc.split('@')[0];
+    return p.charAt(0).toUpperCase() + p.slice(1);
+  }
+  return 'Mesher ' + acc.slice(-4);
+}
+function authMask(acc, mode){
+  if(mode === 'email'){
+    const parts = acc.split('@'), n = parts[0];
+    return (n.length <= 2 ? n.charAt(0) + '*' : n.slice(0, 2) + '***') + '@' + parts[1];
+  }
+  return acc.slice(0, 3) + '****' + acc.slice(-4);
+}
+
+/* --- 打开 / 关闭 --- */
+function authOpen(){
+  const el = document.getElementById('auth-screen');
+  if(!el) return;
+  el.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  authClearErr();
+  setTimeout(function(){ const i = document.getElementById('auth-acc'); if(i) i.focus(); }, 120);
+}
+function authClose(){
+  const el = document.getElementById('auth-screen');
+  if(el) el.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+/* --- 手机号 / 邮箱 切换 --- */
+function authSetMode(mode){
+  authMode = (mode === 'email') ? 'email' : 'phone';
+  const isMail = authMode === 'email';
+  document.getElementById('auth-tab-phone').classList.toggle('on', !isMail);
+  document.getElementById('auth-tab-email').classList.toggle('on', isMail);
+  document.getElementById('auth-acc-label').textContent = isMail ? '邮箱' : '手机号';
+  document.getElementById('auth-sub').textContent = isMail ? '未注册的邮箱将自动创建账号' : '未注册的手机号将自动创建账号';
+  document.getElementById('auth-prefix').style.display = isMail ? 'none' : 'flex';
+  const acc = document.getElementById('auth-acc');
+  acc.type = isMail ? 'email' : 'tel';
+  acc.maxLength = isMail ? 60 : 11;
+  acc.setAttribute('inputmode', isMail ? 'email' : 'numeric');
+  acc.setAttribute('placeholder', isMail ? '请输入邮箱地址' : '请输入 11 位手机号');
+  acc.value = '';
+  document.getElementById('auth-code').value = '';
+  authClearErr();
+}
+
+/* --- 校验 --- */
+function authAccountOk(acc){
+  if(authMode === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(acc);
+  return /^1[3-9]\d{9}$/.test(acc);
+}
+function authErr(msg){
+  const e = document.getElementById('auth-err');
+  if(e) e.textContent = msg || '';
+  const box = document.getElementById('auth-acc-box');
+  if(box) box.classList.toggle('bad', !!msg);
+}
+function authClearErr(){ authErr(''); }
+
+/* --- 验证码（模拟） --- */
+function authSendCode(){
+  const acc = document.getElementById('auth-acc').value.trim();
+  if(!acc){ authErr(authMode === 'email' ? '请先填写邮箱' : '请先填写手机号'); return; }
+  if(!authAccountOk(acc)){ authErr(authMode === 'email' ? '邮箱格式不正确' : '手机号格式不正确'); return; }
+  authErr('');
+  const btn = document.getElementById('auth-code-btn');
+  if(!btn || btn.disabled) return;
+  let left = 60;
+  btn.disabled = true;
+  btn.textContent = left + 's 后重发';
+  authTimer = setInterval(function(){
+    left -= 1;
+    if(left <= 0){
+      clearInterval(authTimer); authTimer = null;
+      btn.disabled = false; btn.textContent = '获取验证码';
+    }else{
+      btn.textContent = left + 's 后重发';
+    }
+  }, 1000);
+}
+function authFillCode(){
+  const c = document.getElementById('auth-code');
+  c.value = AUTH_CODE;
+  authClearErr();
+  c.focus();
+}
+
+/* --- 提交 --- */
+function authSubmit(){
+  const acc = document.getElementById('auth-acc').value.trim();
+  const code = document.getElementById('auth-code').value.trim();
+  const agreed = document.getElementById('auth-agree');
+  if(!acc){ authErr(authMode === 'email' ? '请填写邮箱' : '请填写手机号'); return; }
+  if(!authAccountOk(acc)){ authErr(authMode === 'email' ? '邮箱格式不正确' : '请输入 11 位有效手机号'); return; }
+  if(!code){ authErr('请填写验证码'); return; }
+  if(code !== AUTH_CODE){ authErr('验证码不正确（演示环境请输入 ' + AUTH_CODE + '）'); return; }
+  if(agreed && !agreed.checked){ authErr('请先勾选同意《用户协议》与《隐私政策》'); return; }
+  authErr('');
+
+  const btn = document.getElementById('auth-submit');
+  btn.disabled = true;
+  btn.textContent = '登录中…';
+  /* TODO(联调)：替换为 POST /auth/login { mode, account, code }，用返回的 token 初始化 */
+  setTimeout(function(){
+    authState = { mode: authMode, account: acc, nick: authNick(acc, authMode), guest: false };
+    authWrite();
+    btn.disabled = false;
+    btn.textContent = '登录';
+    authAfterEnter();
+  }, 600);
+}
+
+/* --- 游客模式 --- */
+function authGuest(){
+  authState = { mode: 'guest', account: '', nick: '访客用户', guest: true };
+  authWrite();
+  authAfterEnter();
+}
+
+/* --- 退出登录 --- */
+function authLogout(){
+  authState = null;
+  authWipe();
+  renderAuthUI();
+  authApplyToMe();
+}
+
+/* --- 登录成功收尾 --- */
+function authAfterEnter(){
+  document.getElementById('auth-acc').value = '';
+  document.getElementById('auth-code').value = '';
+  const btn = document.getElementById('auth-code-btn');
+  if(btn){ btn.disabled = false; btn.textContent = '获取验证码'; }
+  if(authTimer){ clearInterval(authTimer); authTimer = null; }
+  authClose();
+  renderAuthUI();
+  authApplyToMe();
+}
+
+/* --- 顶栏账号区 --- */
+function renderAuthUI(){
+  const box = document.getElementById('nav-actions');
+  if(!box) return;
+  if(!authState){
+    box.innerHTML = '<button class="btn btn-primary" onclick="authOpen()">登录 / 注册</button>';
+    return;
+  }
+  const initial = authState.guest ? '访'
+    : (authState.mode === 'email' ? authState.account.charAt(0).toUpperCase() : authState.account.slice(-1));
+  const name = authState.guest ? '游客' : authState.nick;
+  const tip = authState.guest ? '当前为游客模式，点击登录'
+    : ('已登录 ' + authMask(authState.account, authState.mode));
+  box.innerHTML =
+    '<button class="user-chip" onclick="go(\'me\')" title="' + authEsc(tip) + '">' +
+      '<span class="uc-av">' + authEsc(initial) + '</span>' +
+      '<span class="uc-name">' + authEsc(name) + '</span>' +
+    '</button>' +
+    (authState.guest ? '' : '<button class="auth-logout" onclick="authLogout()">退出</button>');
+}
+
+/* --- 同步到「我的」页首屏 --- */
+function authApplyToMe(){
+  const nameEl = document.querySelector('.me-name');
+  const avatarEl = document.querySelector('.me-avatar');
+  const accEl = document.getElementById('me-account');
+  if(!nameEl) return;
+  if(authState && !authState.guest){
+    nameEl.textContent = authState.nick;
+    if(avatarEl) avatarEl.textContent = (authState.mode === 'email'
+      ? authState.account.charAt(0).toUpperCase()
+      : authState.account.slice(-1));
+    if(accEl){
+      accEl.style.display = 'block';
+      accEl.textContent = '登录账号 ' + authMask(authState.account, authState.mode) + ' · 前端模拟登录，未接真实鉴权';
+    }
+  }else if(authState && authState.guest){
+    nameEl.textContent = '访客用户';
+    if(avatarEl) avatarEl.textContent = '访';
+    if(accEl){ accEl.style.display = 'block'; accEl.textContent = '游客模式 · 业务数据仅存于当前页内存，刷新即重置'; }
+  }else{
+    nameEl.textContent = '访客用户';
+    if(avatarEl) avatarEl.textContent = '访';
+    if(accEl){ accEl.style.display = 'none'; accEl.textContent = ''; }
+  }
+}
+
+/* --- 初始化：读登录态；首次访问自动弹登录页 --- */
+(function authInit(){
+  authState = authRead();
+  renderAuthUI();
+  authApplyToMe();
+  if(!authState && AUTH_AUTO_OPEN){ setTimeout(function(){ authOpen(); }, 300); }
 })();
 </script>
 </body>

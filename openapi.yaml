@@ -10,6 +10,64 @@ info:
 servers:
   - url: /api/v1
 paths:
+  # ===== 鉴权（新增：配合登录页） =====
+  # 前端 index.html 里 authSendCode() / authSubmit() 目前是本地模拟（验证码写死 123456），
+  # 接口就绪后只需把这两个函数体换成请求，其余渲染逻辑不用改。
+  /auth/code:
+    post:
+      summary: 发送验证码（短信 / 邮件）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mode, account]
+              properties:
+                mode: { type: string, enum: [phone, email] }
+                account: { type: string, description: 11 位手机号或邮箱 }
+      responses:
+        '204': { description: 已发送（演示环境不真发，固定 123456） }
+        '429': { description: 发送过于频繁（前端按钮 60s 倒计时） }
+  /auth/login:
+    post:
+      summary: 验证码登录 / 未注册自动创建账号
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mode, account, code]
+              properties:
+                mode: { type: string, enum: [phone, email] }
+                account: { type: string }
+                code: { type: string, description: 6 位数字 }
+                agreed: { type: boolean, description: 是否勾选用户协议（前端已强制校验）, x-frontend-guessed: true }
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthSession' }
+        '400': { description: 验证码错误或已过期 }
+  /auth/logout:
+    post:
+      summary: 退出登录
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204': { description: 已退出 }
+  /auth/me:
+    get:
+      summary: 当前登录用户
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: 当前用户
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthSession' }
+        '401': { description: 未登录 }
   /projects:
     get:
       summary: 项目浏览/推荐列表
@@ -430,7 +488,17 @@ paths:
                 items: { $ref: '#/components/schemas/Activity' }
 
 components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
   schemas:
+    AuthSession:
+      type: object
+      properties:
+        token: { type: string, description: 前端存入 sessionStorage 的 rm.session，刷新靠它恢复登录态 }
+        userId: { type: string, x-frontend-guessed: true }
+        mode: { type: string, enum: [phone, email] }
+        account: { type: string, description: 已脱敏，如 138****8888 }
+        nick: { type: string, description: 前端展示名：手机号 = Mesher+后4位，邮箱 = 前缀首字母大写, x-frontend-guessed: true }
     Project:
       type: object
       properties:
